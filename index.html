@@ -2,32 +2,662 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webchat Teste Duko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duko Ecommerce - Sua Loja de Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(50px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(0, 255, 136, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #0a0e27;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background: #00ff88;
+            color: #0a0e27;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 6rem 5% 4rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.2), transparent);
+            top: -250px;
+            right: -250px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero-image {
+            position: relative;
+            animation: float-slow 6s ease-in-out infinite;
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .game-card-hero {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .game-card-hero img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        /* Categories */
+        .categories {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Products */
+        .products {
+            padding: 4rem 5%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1f3a, #2a3f5a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            color: #00ff88;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .product-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 5%;
+            border-top: 2px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #00ff88;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #00ff88;
+            transform: scale(1.1);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Ambiente de Teste — Webchat Duko</h1>
-    <p>Se o atendimento estiver ativo, o botão do chat deve aparecer no canto.</p>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
 
-  <script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">DUKO</div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#categories">Categorias</a></li>
+                <li><a href="#products">Produtos</a></li>
+                <li><a href="#deals">Promoções</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary">🛒 Carrinho</button>
+                <button class="btn btn-primary">Entrar</button>
+            </div>
+        </nav>
+    </header>
 
-			embeddedservice_bootstrap.init(
-				'00Dfj000008TarX',
-				'Chat',
-				'https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.site.com/ESWChat1761065290053',
-				{
-					scrt2URL: 'https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
-</script>
-<script type='text/javascript' src='https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.site.com/ESWChat1761065290053/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Sua Loja Gamer Definitiva</h1>
+                <p>Jogos digitais, gift cards, consoles e muito mais. Compre agora e receba na hora!</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">🎮 Explorar Jogos</button>
+                    <button class="btn btn-secondary" style="font-size: 1.1rem; padding: 1rem 2rem;">🎁 Gift Cards</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="game-card-hero">
+                    <div class="product-image">🎮</div>
+                    <h3>Ofertas do Dia</h3>
+                    <p style="color: #00ff88; font-size: 2rem; font-weight: bold;">Até 70% OFF</p>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Ver Ofertas</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <h2 class="section-title">Categorias em Destaque</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-icon">🎮</div>
+                <h3>Jogos Digitais</h3>
+                <p>PC, PS5, Xbox e mais</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🎁</div>
+                <h3>Gift Cards</h3>
+                <p>Steam, PSN, Xbox Live</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🕹️</div>
+                <h3>Consoles</h3>
+                <p>PlayStation, Xbox, Nintendo</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">⚡</div>
+                <h3>DLCs & Expansões</h3>
+                <p>Conteúdo adicional</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="products-container">
+            <h2 class="section-title">Produtos Populares</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">🎯</div>
+                    <div class="product-info">
+                        <span class="product-tag">🔥 PROMOÇÃO</span>
+                        <h3>Cyberpunk 2077</h3>
+                        <div class="product-price">R$ 149,90</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🏎️</div>
+                    <div class="product-info">
+                        <span class="product-tag">✨ NOVO</span>
+                        <h3>Forza Horizon 5</h3>
+                        <div class="product-price">R$ 199,90</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">⚔️</div>
+                    <div class="product-info">
+                        <span class="product-tag">🎮 PC</span>
+                        <h3>Elden Ring</h3>
+                        <div class="product-price">R$ 179,90</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">💳</div>
+                    <div class="product-info">
+                        <span class="product-tag">🎁 GIFT CARD</span>
+                        <h3>Steam Wallet R$ 50</h3>
+                        <div class="product-price">R$ 50,00</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎪</div>
+                    <div class="product-info">
+                        <span class="product-tag">🔥 DESTAQUE</span>
+                        <h3>Red Dead Redemption 2</h3>
+                        <div class="product-price">R$ 139,90</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🌟</div>
+                    <div class="product-info">
+                        <span class="product-tag">⭐ TOP</span>
+                        <h3>GTA V Premium</h3>
+                        <div class="product-price">R$ 89,90</div>
+                        <button class="btn btn-primary" style="width: 100%;">Comprar Agora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DUKO</h3>
+                <p>Sua loja gamer completa. Jogos, gift cards e consoles com os melhores preços!</p>
+                <div class="social-icons">
+                    <div class="social-icon">📘</div>
+                    <div class="social-icon">📸</div>
+                    <div class="social-icon">🐦</div>
+                    <div class="social-icon">💬</div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Categorias</a></li>
+                    <li><a href="#">Promoções</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suporte</h3>
+                <ul>
+                    <li><a href="#">Central de Ajuda</a></li>
+                    <li><a href="#">Como Comprar</a></li>
+                    <li><a href="#">Formas de Pagamento</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Receba ofertas exclusivas!</p>
+                <input type="email" placeholder="Seu e-mail" style="width: 100%; padding: 0.8rem; border-radius: 25px; border: 2px solid #00ff88; background: rgba(255,255,255,0.1); color: #fff; margin-top: 1rem;">
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Inscrever</button>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Duko Ecommerce. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+    <!-- Webchat Duko -->
+    <script type='text/javascript'>
+        function initEmbeddedMessaging() {
+            try {
+                embeddedservice_bootstrap.settings.language = 'pt_BR';
+                embeddedservice_bootstrap.init(
+                    '00Dfj000008TarX',
+                    'Duko',
+                    'https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.site.com/ESWDuko1761002456580',
+                    {
+                        scrt2URL: 'https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.salesforce-scrt.com/'
+                    }
+                );
+            } catch (err) {
+                console.error('Error loading Embedded Messaging: ', err);
+            }
+        };
+    </script>
+    <script type='text/javascript' src='https://playful-narwhal-kcl65d-dev-ed.trailblaze.my.site.com/ESWDuko1761002456580/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 </body>
 </html>
